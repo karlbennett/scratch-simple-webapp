@@ -29,4 +29,9 @@ public class SeleniumHomePage implements HomePage {
     public void clickRegister() {
         finders.clickByText("a", "Register");
     }
+
+    @Override
+    public void clickSignIn() {
+        finders.clickByText("a", "Sign In");
+    }
 }

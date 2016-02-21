@@ -8,6 +8,7 @@ import scratch.simple.webapp.domain.User;
 
 @Controller
 @SessionAttributes("user")
+@RequestMapping(path = "/profile")
 public class ProfileController {
 
     @RequestMapping(path = "/{username}")

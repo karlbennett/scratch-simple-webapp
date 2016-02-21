@@ -44,4 +44,14 @@ public class SeleniumHomePageTest {
         // Then
         verify(finders).clickByText("a", "Register");
     }
+
+    @Test
+    public void Can_got_to_the_sign_in_page() {
+
+        // When
+        page.clickSignIn();
+
+        // Then
+        verify(finders).clickByText("a", "Sign In");
+    }
 }
