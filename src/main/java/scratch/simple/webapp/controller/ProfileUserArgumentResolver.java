@@ -13,6 +13,11 @@ import java.util.Map;
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST;
 import static org.springframework.web.servlet.HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE;
 
+/**
+ * We use an argument resolver for the profile {@link User} instead of a
+ * {@link org.springframework.web.bind.annotation.ModelAttribute} because it seems to be the only way from stopping the
+ * {@link org.springframework.web.bind.annotation.SessionAttributes} {@code User} from being injected into the method.
+ */
 public class ProfileUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final UserRepository userRepository;
