@@ -1,0 +1,16 @@
+package cucumber.scratch.simple.webapp.finder;
+
+import org.openqa.selenium.WebElement;
+
+public interface Finders {
+
+    WebElement findByClassName(String className);
+
+    WebElement findByText(String tag, String text);
+
+    void clickByText(String tag, String text);
+
+    void setTextByLabel(String name, String text);
+
+    void clickByValue(String value);
+}

@@ -1,0 +1,32 @@
+package cucumber.scratch.simple.webapp.page;
+
+import cucumber.scratch.simple.webapp.finder.Finders;
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SeleniumHomePage implements HomePage {
+
+    private final WebDriver driver;
+    private final String homePageUrl;
+    private final Finders finders;
+
+    @Autowired
+    public SeleniumHomePage(WebDriver driver, @Value("${home.page.url}") String homePageUrl, Finders finders) {
+        this.driver = driver;
+        this.homePageUrl = homePageUrl;
+        this.finders = finders;
+    }
+
+    @Override
+    public void visit() {
+        driver.get(homePageUrl);
+    }
+
+    @Override
+    public void clickRegister() {
+        finders.clickByText("a", "Register");
+    }
+}
