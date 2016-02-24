@@ -14,6 +14,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class SignInStepsTest {
 
@@ -63,5 +64,61 @@ public class SignInStepsTest {
         order.verify(homePage).visit();
         order.verify(homePage).clickSignIn();
         order.verify(signInPage).signIn(user);
+    }
+
+    @Test
+    public void Can_check_that_the_current_page_is_the_home_page() {
+
+        // Given
+        given(homePage.isCurrentPage()).willReturn(true);
+
+        // When
+        inSteps.I_should_be_on_the_homepage();
+
+        // Then
+        verify(homePage).isCurrentPage();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void Can_check_that_the_current_page_is_not_the_home_page() {
+
+        // Given
+        given(homePage.isCurrentPage()).willReturn(false);
+
+        // When
+        inSteps.I_should_be_on_the_homepage();
+    }
+
+    @Test
+    public void Can_check_that_the_account_is_signed_in() {
+
+        final User user = mock(User.class);
+
+        final String username = someString();
+
+        // Given
+        given(userHolder.get()).willReturn(user);
+        given(user.getUsername()).willReturn(username);
+        given(homePage.getAccountName()).willReturn(username);
+
+        // When
+        inSteps.I_should_see_that_I_am_signed_in();
+
+        // Then
+        verify(homePage).getAccountName();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void Can_check_that_the_account_is_not_signed_in() {
+
+        final User user = mock(User.class);
+
+        // Given
+        given(userHolder.get()).willReturn(user);
+        given(user.getUsername()).willReturn(someString());
+        given(homePage.getAccountName()).willReturn(someString());
+
+        // When
+        inSteps.I_should_see_that_I_am_signed_in();
     }
 }

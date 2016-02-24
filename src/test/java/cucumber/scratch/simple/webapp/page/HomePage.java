@@ -7,4 +7,8 @@ public interface HomePage {
     void clickRegister();
 
     void clickSignIn();
+
+    boolean isCurrentPage();
+
+    String getAccountName();
 }

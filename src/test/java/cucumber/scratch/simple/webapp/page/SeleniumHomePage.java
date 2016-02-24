@@ -34,4 +34,14 @@ public class SeleniumHomePage implements HomePage {
     public void clickSignIn() {
         finders.clickByText("a", "Sign In");
     }
+
+    @Override
+    public boolean isCurrentPage() {
+        return "Simple Webapp (Home)".equals(driver.getTitle());
+    }
+
+    @Override
+    public String getAccountName() {
+        return finders.findByClassName("username").getText();
+    }
 }
