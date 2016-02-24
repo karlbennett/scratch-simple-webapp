@@ -18,7 +18,7 @@ describe('Show Username', function () {
         verify(elementReplacer).replaceByClassName('signin', username);
     });
 
-    it('Can replace the signin with the username', function () {
+    it('Can replace an element by its class name', function () {
 
         var document = mock(Document);
 
