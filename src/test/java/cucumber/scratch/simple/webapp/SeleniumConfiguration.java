@@ -20,7 +20,7 @@ public class SeleniumConfiguration {
     public WebDriver webDriver(@Value("${web.driver:htmlunit}") String webDriver) {
 
         if ("htmlunit".equals(webDriver)) {
-            return new HtmlUnitDriver();
+            return new HtmlUnitDriver(true);
         }
 
         if ("chrome".equals(webDriver)) {

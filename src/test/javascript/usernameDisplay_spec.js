@@ -2,90 +2,207 @@ describe('Show Username', function () {
 
     it('Can replace the signin with the username', function () {
 
-        var elementReplacer = mock(ElementReplacer);
-        var usernameFactory = mock(UsernameFactory);
+        var usernameElementFactory = mock(UsernameElementFactory);
+        var usernameReplacerFactory = mock(UsernameReplacerFactory);
+        var usernameService = mock(UsernameService);
 
-        var username = mock(new function () {
-        });
-
-        // Given
-        when(usernameFactory).create().thenReturn(username);
-
-        // When
-        new UsernameDisplay(elementReplacer, usernameFactory).show();
-
-        // Then
-        verify(elementReplacer).replaceByClassName('signin', username);
-    });
-
-    it('Can replace an element by its class name', function () {
-
-        var document = mock(Document);
-
-        var element = mock(Element);
-        var className = 'some class name';
-
-        var signin = mock(Element);
-        var parentElement = mock(Element);
+        var usernameElement = mock(Element);
+        var usernameReplacer = function () {
+        };
 
         // Given
-        when(document).getElementsByClassName(className).thenReturn(signin);
-        signin.parentElement = parentElement;
+        when(usernameElementFactory).create().thenReturn(usernameElement);
+        when(usernameReplacerFactory).create(usernameElement).thenReturn(usernameReplacer);
 
         // When
-        new ElementReplacer(document).replaceByClassName(className, element);
+        new UsernameDisplay(usernameElementFactory, usernameReplacerFactory, usernameService).show();
 
         // Then
-        verify(parentElement).replaceChild(signin, element);
+        verify(usernameService).getUsername(usernameReplacer);
     });
 
     it('Can create a username element', function () {
 
         var document = mock(Document);
-        var usernameService = mock(UsernameService);
 
-        var username = 'some username';
-        var a = mock(Element);
-        var text = mock(Node);
-
-        var expected = mock(Element);
+        var anchor = mock(Element);
+        var div = mock(Element);
 
         // Given
-        when(usernameService).getUsername().thenReturn(username);
-        when(document).createElement('a').thenReturn(a);
-        when(document).createTextNode(username).thenReturn(text);
-        when(document).createElement('div').thenReturn(expected);
+        when(document).createElement('a').thenReturn(anchor);
+        when(document).createElement('div').thenReturn(div);
 
         // When
-        var actual = new UsernameFactory(document, usernameService).create();
+        var actual = new UsernameElementFactory(document).create();
 
         // Then
-        assertThat(actual, is(expected));
-        verify(a).setAttribute('href', '/profile/' + username);
-        verify(a).appendChild(text);
-        verify(expected).setAttribute('class', 'username');
-        verify(expected).appendChild(a);
+        assertThat(actual, is(div));
+        verify(div).setAttribute('class', 'username');
+        verify(div).appendChild(anchor);
     });
 
-    it('Can get the username', function () {
+    it('Can create a username replacer', function () {
 
-        var client = mock(HttpClient);
+        var document = mock(Document);
 
-        var pathClient = mock(HttpClient);
-        var acceptClient = mock(HttpClient);
+        var usernameElement = mock(Element);
+        var username = 'some username';
 
-        var expected = 'some user name';
+        var text = mock(Node);
+        var anchor = mock(Element);
+        var signin = mock(Element);
+        var signinParent = mock(Element);
 
         // Given
-        when(client).path('/username').thenReturn(pathClient);
-        when(pathClient).accept('application/json').thenReturn(acceptClient);
-        when(acceptClient).get().thenReturn(expected);
+        when(document).createTextNode(username).thenReturn(text);
+        when(usernameElement).getElementsByTagName('a').thenReturn([anchor]);
+        when(document).getElementsByClassName('signin').thenReturn([signin]);
+        signin.parentElement = signinParent;
 
         // When
-        var actual = new UsernameService(client).getUsername();
+        new UsernameReplacerFactory(document).create(usernameElement)(username);
 
         // Then
-        assertThat(actual, is(expected))
+        verify(anchor).setAttribute('href', '/profile/' + username);
+        verify(anchor).appendChild(text);
+        verify(signinParent).replaceChild(usernameElement, signin);
+    });
+
+    it('Can request the username', function () {
+
+        var client = mock(HttpClient);
+        var usernameHandlerFactory = mock(UsernameHandlerFactory);
+
+        var usernameReplacer = mockFunction();
+
+        var pathClient = mock(HttpClient);
+        var usernameHandler = mockFunction();
+
+        // Given
+        when(usernameHandlerFactory).create(usernameReplacer).thenReturn(usernameHandler);
+        when(client).path('/username').thenReturn(pathClient);
+
+        // When
+        new UsernameService(usernameHandlerFactory, client).getUsername(usernameReplacer);
+
+        // Then
+        verify(pathClient).get(usernameHandler);
+    });
+
+    it('Can create a username handler', function () {
+
+        var usernameReplacer = mockFunction();
+        var response = mock(Response);
+
+        var username = 'some user name';
+        var body = new function () {
+        };
+
+        // Given
+        when(response).body().thenReturn(body);
+        body.username = username;
+
+        // When
+        new UsernameHandlerFactory().create(usernameReplacer)(response);
+
+        // Then
+        verify(usernameReplacer)(username);
+    });
+
+    it('Can make a json request', function () {
+
+        var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
+
+        var url = 'http://so.me/where';
+        var responseHandler = mockFunction();
+
+        var request = mock(XMLHttpRequest);
+        var text = '{"username" : "some username"}';
+
+        // Given
+        when(xmlHttpRequestFactory).create().thenReturn(request);
+        request.readyState = 4;
+        request.status = 200;
+        request.responseText = text;
+
+        // When
+        new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+        request.onreadystatechange();
+
+        // Then
+        verify(responseHandler)(instanceOf(Response));
+        verify(request).open('GET', url, true);
+        verify(request).send();
+    });
+
+    it('Will not try to handle the json request too early', function () {
+
+        var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
+
+        var url = 'http://so.me/where';
+        var responseHandler = mockFunction();
+
+        var request = mock(XMLHttpRequest);
+        var text = 'some text';
+
+        // Given
+        when(xmlHttpRequestFactory).create().thenReturn(request);
+        request.readyState = 3;
+
+        // When
+        new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+        request.onreadystatechange();
+
+        // Then
+        verify(responseHandler, never())(anything());
+        verify(request).open('GET', url, true);
+        verify(request).send();
+    });
+
+    it('Cannot make a failed json request', function () {
+
+        var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
+
+        var url = 'http://so.me/where';
+        var responseHandler = mockFunction();
+
+        var request = mock(XMLHttpRequest);
+        var text = 'some text';
+
+        // Given
+        when(xmlHttpRequestFactory).create().thenReturn(request);
+        request.readyState = 4;
+        request.status = 400;
+
+        // When
+        new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+        request.onreadystatechange();
+
+        // Then
+        verify(responseHandler, never())(anything());
+        verify(request).open('GET', url, true);
+        verify(request).send();
+    });
+
+    it('Can create an XMLHttpRequest', function () {
+
+        // When
+        var actual = new XMLHttpRequestFactory().create();
+
+        // Then
+        assertThat(actual, typeOf('object'));
+    });
+
+    it('Can create a response', function () {
+
+        // Given
+        var body = 'some body';
+
+        // When
+        var actual = new Response(body).body();
+
+        // Then
+        assertThat(actual, is(body));
     });
 
     function Node() {
@@ -95,6 +212,9 @@ describe('Show Username', function () {
     }
 
     Element.prototype.getElementsByClassName = function () {
+    };
+
+    Element.prototype.getElementsByTagName = function () {
     };
 
     Element.prototype.replaceChild = function () {
@@ -117,4 +237,15 @@ describe('Show Username', function () {
     Document.prototype.createTextNode = function () {
     };
 
+    function XMLHttpRequest() {
+    }
+
+    XMLHttpRequest.prototype.overrideMimeType = function () {
+    };
+
+    XMLHttpRequest.prototype.open = function () {
+    };
+
+    XMLHttpRequest.prototype.send = function () {
+    };
 });

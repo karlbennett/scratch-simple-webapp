@@ -18,7 +18,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected final void configure(HttpSecurity http) throws Exception {
         // The CSRF prevention is disabled because it greatly complicates the requirements for the sign in POST request.
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/", "/registration").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/", "/scripts/*", "/username", "/registration").permitAll()
+            .anyRequest().authenticated();
         http.formLogin().defaultSuccessUrl("/").loginPage("/signIn").permitAll();
         http.logout().logoutUrl("/signOut").logoutSuccessUrl("/");
     }
