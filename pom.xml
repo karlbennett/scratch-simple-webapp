@@ -54,6 +54,9 @@
                 </executions>
                 <configuration>
                     <jsSrcDir>${project.basedir}/src/main/resources/META-INF/resources/scripts</jsSrcDir>
+                    <sourceExcludes>
+                        <exclude>**/*-page.js</exclude>
+                    </sourceExcludes>
                     <webDriverClassName>org.openqa.selenium.htmlunit.HtmlUnitDriver</webDriverClassName>
                     <preloadSources>
                         <source>webjars/jshamcrest.js</source>
