@@ -36,6 +36,9 @@ function XMLHttpRequest() {
 XMLHttpRequest.prototype.overrideMimeType = function () {
 };
 
+XMLHttpRequest.prototype.getResponseHeader = function () {
+};
+
 XMLHttpRequest.prototype.open = function () {
 };
 

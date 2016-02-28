@@ -1,7 +1,28 @@
 scratch-simple-webapp
 ==============
 
-This is a demonstration of a web application that is built and tested with [Cucumber](https://cucumber.io/),
-[Spring Boot](http://projects.spring.io/spring-boot/), [Mustache](https://mustache.github.io/),
-[Jasmin](http://jasmine.github.io/), and [Maven](https://maven.apache.org/). It is completely self contained, so as long
-as you have [Java](http://openjdk.java.net/) and Maven installed it should checkout, build, and run.
+This project demonstrates a range of features across multiple frameworks and tools including
+[Maven](https://maven.apache.org/), [Spring Boot](http://projects.spring.io/spring-boot/),
+[Mustache](https://mustache.github.io/), [Cucumber](https://cucumber.io/), and [Jasmin](http://jasmine.github.io/).
+
+## Building
+
+To build this project you must first install the [JDK](http://openjdk.java.net/install/)
+([windows/MacOSX install](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)) and
+[Maven](https://maven.apache.org/install.html).
+
+Then clone this project.
+```bash
+git clone git@github.com:karlbennett/scratch-simple-webapp.git
+```
+
+Navigate to the project directory and run the maven build.
+```bash
+cd scratch-simple-webapp
+mvn clean verify
+```
+
+This will compile the code, package the classes, and run all the tests.
+
+## Running
+

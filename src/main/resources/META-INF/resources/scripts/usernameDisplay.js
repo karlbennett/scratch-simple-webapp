@@ -44,7 +44,7 @@ function UsernameService(usernameHandlerFactory, client) {
 }
 
 UsernameService.prototype.getUsername = function (usernameReplacer) {
-    this.client.path('/username').get(this.usernameHandlerFactory.create(usernameReplacer));
+    this.client.path('/username').accept('application/json').get(this.usernameHandlerFactory.create(usernameReplacer));
 };
 
 function UsernameHandlerFactory() {
@@ -52,7 +52,10 @@ function UsernameHandlerFactory() {
 
 UsernameHandlerFactory.prototype.create = function (usernameReplacer) {
     return function (response) {
-        usernameReplacer(response.body().username)
+        var body = response.body();
+        if (body.username) {
+            usernameReplacer(body.username)
+        }
     };
 };
 
@@ -65,15 +68,31 @@ HttpClient.prototype.path = function (path) {
     return this;
 };
 
+HttpClient.prototype.accept = function (accept) {
+    this._accept = accept;
+    return this;
+};
+
 HttpClient.prototype.get = function (responseHandler) {
     var request = this.xmlHttpRequestFactory.create();
+    if (request.overrideMimeType) {
+        request.overrideMimeType(this._accept);
+    }
     request.onreadystatechange = function () {
         if (request.readyState !== 4) {
             return;
         }
 
+        function parse(body) {
+            var contentType = request.getResponseHeader('Content-Type');
+            if (contentType && contentType.indexOf('application/json') > -1) {
+                return JSON.parse(request.responseText);
+            }
+            return body;
+        }
+
         if (request.status === 200) {
-            responseHandler(new Response(JSON.parse(request.responseText)));
+            responseHandler(new Response(parse(request.responseText)));
         }
     };
     request.open('GET', this._path, true);
