@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import scratch.simple.webapp.security.AddUsernameToSessionSuccessHandler;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -20,7 +22,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/", "/scripts/*", "/username", "/registration").permitAll()
             .anyRequest().authenticated();
-        http.formLogin().defaultSuccessUrl("/").loginPage("/signIn").permitAll();
+        http.formLogin()
+            .successHandler(new AddUsernameToSessionSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("/")))
+            .loginPage("/signIn").permitAll();
         http.logout().logoutUrl("/signOut").logoutSuccessUrl("/");
     }
 
