@@ -99,13 +99,13 @@ public class SignInStepsTest {
         // Given
         given(userHolder.get()).willReturn(user);
         given(user.getUsername()).willReturn(username);
-        given(homePage.getAccountName()).willReturn(username);
+        given(homePage.getUsername()).willReturn(username);
 
         // When
         inSteps.I_should_see_that_I_am_signed_in();
 
         // Then
-        verify(homePage).getAccountName();
+        verify(homePage).getUsername();
     }
 
     @Test(expected = AssertionError.class)
@@ -116,7 +116,7 @@ public class SignInStepsTest {
         // Given
         given(userHolder.get()).willReturn(user);
         given(user.getUsername()).willReturn(someString());
-        given(homePage.getAccountName()).willReturn(someString());
+        given(homePage.getUsername()).willReturn(someString());
 
         // When
         inSteps.I_should_see_that_I_am_signed_in();

@@ -10,5 +10,5 @@ public interface HomePage {
 
     boolean isCurrentPage();
 
-    String getAccountName();
+    String getUsername();
 }

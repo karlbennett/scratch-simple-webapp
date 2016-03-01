@@ -41,7 +41,7 @@ public class SeleniumHomePage implements HomePage {
     }
 
     @Override
-    public String getAccountName() {
+    public String getUsername() {
         return finders.findByClassName("username").getText();
     }
 }

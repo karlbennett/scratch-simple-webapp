@@ -97,7 +97,7 @@ public class SeleniumHomePageTest {
         given(signIn.getText()).willReturn(expected);
 
         // When
-        final String actual = page.getAccountName();
+        final String actual = page.getUsername();
 
         // Then
         assertThat(actual, is(expected));
