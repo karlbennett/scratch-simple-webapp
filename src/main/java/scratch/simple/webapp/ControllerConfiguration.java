@@ -35,6 +35,6 @@ public class ControllerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RegistrationAutoSignInInterceptor(securityContextHolder));
+        registry.addInterceptor(new RegistrationAutoSignInInterceptor(userRepository, securityContextHolder));
     }
 }

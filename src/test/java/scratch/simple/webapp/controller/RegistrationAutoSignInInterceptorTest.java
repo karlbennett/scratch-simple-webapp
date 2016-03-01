@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.servlet.ModelAndView;
+import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 import scratch.simple.webapp.security.SecurityContextHolder;
 
@@ -26,12 +27,14 @@ import static shiver.me.timbers.matchers.Matchers.hasField;
 public class RegistrationAutoSignInInterceptorTest {
 
     private SecurityContextHolder securityContextHolder;
+    private UserRepository userRepository;
     private RegistrationAutoSignInInterceptor interceptor;
 
     @Before
     public void setUp() {
         securityContextHolder = mock(SecurityContextHolder.class);
-        interceptor = new RegistrationAutoSignInInterceptor(securityContextHolder);
+        userRepository = mock(UserRepository.class);
+        interceptor = new RegistrationAutoSignInInterceptor(userRepository, securityContextHolder);
     }
 
     @Test
@@ -41,8 +44,9 @@ public class RegistrationAutoSignInInterceptorTest {
 
         final SecurityContext securityContext = mock(SecurityContext.class);
         final HttpSession session = mock(HttpSession.class);
+        final String username1 = someString();
         final User user = mock(User.class);
-        final String username = someString();
+        final String username2 = someString();
         final String password = someString();
 
         // Given
@@ -50,8 +54,9 @@ public class RegistrationAutoSignInInterceptorTest {
         given(request.getMethod()).willReturn("POST");
         given(securityContextHolder.getContext()).willReturn(securityContext);
         given(request.getSession()).willReturn(session);
-        given(session.getAttribute("user")).willReturn(user);
-        given(user.getUsername()).willReturn(username);
+        given(session.getAttribute("username")).willReturn(username1);
+        given(userRepository.findByUsername(username1)).willReturn(user);
+        given(user.getUsername()).willReturn(username2);
         given(user.getPassword()).willReturn(password);
 
         // When
@@ -61,7 +66,7 @@ public class RegistrationAutoSignInInterceptorTest {
         verify(securityContext).setAuthentication(
             argThat(Matchers.<Authentication>allOf(
                 instanceOf(UsernamePasswordAuthenticationToken.class),
-                hasField("principal", username),
+                hasField("principal", username2),
                 hasField("credentials", password)
             ))
         );
@@ -85,7 +90,7 @@ public class RegistrationAutoSignInInterceptorTest {
     }
 
     @Test
-    public void Will_not_auto_sign_in_after_a_any_other_request() throws Exception {
+    public void Will_not_auto_sign_in_after_any_other_request() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
 

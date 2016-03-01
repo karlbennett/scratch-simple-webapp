@@ -7,12 +7,14 @@ import org.springframework.web.servlet.ModelAndView;
 import scratch.simple.webapp.domain.User;
 
 @Controller
-@SessionAttributes("user")
 @RequestMapping(path = "/profile")
+@SessionAttributes("username")
 public class ProfileController {
 
     @RequestMapping(path = "/{username}")
     public ModelAndView profile(User user) {
-        return new ModelAndView("profile", "user", user);
+        return new ModelAndView("profile")
+            .addObject("username", user.getUsername())
+            .addObject("user", user);
     }
 }
