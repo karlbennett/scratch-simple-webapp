@@ -10,6 +10,7 @@ import scratch.simple.webapp.controller.ProfileUserArgumentResolver;
 import scratch.simple.webapp.controller.RegistrationAutoSignInInterceptor;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.security.SecurityContextHolder;
+import scratch.simple.webapp.security.UserDetailsFactory;
 
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class ControllerConfiguration extends WebMvcConfigurerAdapter {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserDetailsFactory userDetailsFactory;
 
     @Autowired
     private SecurityContextHolder securityContextHolder;
@@ -35,6 +39,10 @@ public class ControllerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RegistrationAutoSignInInterceptor(userRepository, securityContextHolder));
+        registry.addInterceptor(new RegistrationAutoSignInInterceptor(
+            userRepository,
+            userDetailsFactory,
+            securityContextHolder
+        ));
     }
 }

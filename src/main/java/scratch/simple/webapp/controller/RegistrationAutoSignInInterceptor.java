@@ -4,8 +4,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import scratch.simple.webapp.data.UserRepository;
-import scratch.simple.webapp.domain.User;
 import scratch.simple.webapp.security.SecurityContextHolder;
+import scratch.simple.webapp.security.UserDetailsFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 public class RegistrationAutoSignInInterceptor extends HandlerInterceptorAdapter {
 
     private final UserRepository userRepository;
+    private final UserDetailsFactory userDetailsFactory;
     private final SecurityContextHolder securityContextHolder;
 
     public RegistrationAutoSignInInterceptor(
         UserRepository userRepository,
+        UserDetailsFactory userDetailsFactory,
         SecurityContextHolder securityContextHolder
     ) {
         this.userRepository = userRepository;
+        this.userDetailsFactory = userDetailsFactory;
         this.securityContextHolder = securityContextHolder;
     }
 
@@ -34,10 +37,12 @@ public class RegistrationAutoSignInInterceptor extends HandlerInterceptorAdapter
             return;
         }
 
-        final User user = userRepository.findByUsername((String) request.getSession().getAttribute("username"));
         securityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-            user.getUsername(),
-            user.getPassword()
+            userDetailsFactory.create(
+                userRepository.findByUsername((String) request.getSession().getAttribute("username"))
+            ),
+            null,
+            null
         ));
     }
 }

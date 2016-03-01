@@ -6,16 +6,19 @@ import org.junit.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.ModelAndView;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 import scratch.simple.webapp.security.SecurityContextHolder;
+import scratch.simple.webapp.security.UserDetailsFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -23,18 +26,21 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 import static shiver.me.timbers.matchers.Matchers.hasField;
+import static shiver.me.timbers.matchers.Matchers.hasFieldThat;
 
 public class RegistrationAutoSignInInterceptorTest {
 
     private SecurityContextHolder securityContextHolder;
     private UserRepository userRepository;
     private RegistrationAutoSignInInterceptor interceptor;
+    private UserDetailsFactory userDetailsFactory;
 
     @Before
     public void setUp() {
         securityContextHolder = mock(SecurityContextHolder.class);
         userRepository = mock(UserRepository.class);
-        interceptor = new RegistrationAutoSignInInterceptor(userRepository, securityContextHolder);
+        userDetailsFactory = mock(UserDetailsFactory.class);
+        interceptor = new RegistrationAutoSignInInterceptor(userRepository, userDetailsFactory, securityContextHolder);
     }
 
     @Test
@@ -44,20 +50,18 @@ public class RegistrationAutoSignInInterceptorTest {
 
         final SecurityContext securityContext = mock(SecurityContext.class);
         final HttpSession session = mock(HttpSession.class);
-        final String username1 = someString();
+        final String username = someString();
         final User user = mock(User.class);
-        final String username2 = someString();
-        final String password = someString();
+        final UserDetails userDetails = mock(UserDetails.class);
 
         // Given
         given(request.getPathInfo()).willReturn("/registration");
         given(request.getMethod()).willReturn("POST");
         given(securityContextHolder.getContext()).willReturn(securityContext);
         given(request.getSession()).willReturn(session);
-        given(session.getAttribute("username")).willReturn(username1);
-        given(userRepository.findByUsername(username1)).willReturn(user);
-        given(user.getUsername()).willReturn(username2);
-        given(user.getPassword()).willReturn(password);
+        given(session.getAttribute("username")).willReturn(username);
+        given(userRepository.findByUsername(username)).willReturn(user);
+        given(userDetailsFactory.create(user)).willReturn(userDetails);
 
         // When
         interceptor.postHandle(request, mock(HttpServletResponse.class), new Object(), mock(ModelAndView.class));
@@ -66,8 +70,9 @@ public class RegistrationAutoSignInInterceptorTest {
         verify(securityContext).setAuthentication(
             argThat(Matchers.<Authentication>allOf(
                 instanceOf(UsernamePasswordAuthenticationToken.class),
-                hasField("principal", username2),
-                hasField("credentials", password)
+                hasField("principal", userDetails),
+                hasFieldThat("credentials", nullValue()),
+                hasField("authenticated", true)
             ))
         );
     }
