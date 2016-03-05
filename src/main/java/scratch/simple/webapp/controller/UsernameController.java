@@ -15,6 +15,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @SessionAttributes("username")
 public class UsernameController {
 
+    /**
+     * This default model attribute value is required so that Spring doesn't complain if a username has yet to be added
+     * to the session.
+     */
+    @ModelAttribute("username")
+    public String username() {
+        return "";
+    }
+
     @RequestMapping(produces = APPLICATION_JSON_VALUE)
     public Map<String, String> getUsername(@ModelAttribute("username") String username) {
         return singletonMap("username", username);

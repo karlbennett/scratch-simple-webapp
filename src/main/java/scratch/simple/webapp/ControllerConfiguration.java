@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import scratch.simple.webapp.controller.ProfileUserArgumentResolver;
 import scratch.simple.webapp.controller.RegistrationAutoSignInInterceptor;
+import scratch.simple.webapp.controller.UsernameSessionInterceptor;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.security.SecurityContextHolder;
 import scratch.simple.webapp.security.UserDetailsFactory;
@@ -39,6 +40,7 @@ public class ControllerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new UsernameSessionInterceptor());
         registry.addInterceptor(new RegistrationAutoSignInInterceptor(
             userRepository,
             userDetailsFactory,
