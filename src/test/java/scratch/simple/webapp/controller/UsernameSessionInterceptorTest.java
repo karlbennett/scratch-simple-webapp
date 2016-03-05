@@ -45,6 +45,21 @@ public class UsernameSessionInterceptorTest {
 
     @Test
     @SuppressWarnings("unchecked")
+    public void Will_not_create_the_session_before_a_unannotated_controller() throws Exception {
+
+        // Given
+        final HttpServletRequest request = mock(HttpServletRequest.class);
+
+        // When
+        final boolean actual = interceptor.preHandle(request, null, new Object());
+
+        // Then
+        assertThat(actual, is(true));
+        verify(request, never()).getSession(true);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void Will_not_create_the_session_before_any_other_controller() throws Exception {
 
         final HandlerMethod handlerMethod = mock(HandlerMethod.class);
@@ -56,7 +71,7 @@ public class UsernameSessionInterceptorTest {
         given(request.getMethod()).willReturn("GET");
 
         // When
-        final boolean actual = interceptor.preHandle(request, null, new Object());
+        final boolean actual = interceptor.preHandle(request, null, handlerMethod);
 
         // Then
         assertThat(actual, is(true));
@@ -76,7 +91,7 @@ public class UsernameSessionInterceptorTest {
         given(request.getMethod()).willReturn("GET");
 
         // When
-        final boolean actual = interceptor.preHandle(request, null, mock(UsernameController.class));
+        final boolean actual = interceptor.preHandle(request, null, handlerMethod);
 
         // Then
         assertThat(actual, is(true));
@@ -96,7 +111,7 @@ public class UsernameSessionInterceptorTest {
         given(request.getMethod()).willReturn(someString());
 
         // When
-        final boolean actual = interceptor.preHandle(request, null, mock(UsernameController.class));
+        final boolean actual = interceptor.preHandle(request, null, handlerMethod);
 
         // Then
         assertThat(actual, is(true));

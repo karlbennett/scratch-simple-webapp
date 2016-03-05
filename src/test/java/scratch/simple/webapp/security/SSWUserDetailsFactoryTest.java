@@ -1,6 +1,8 @@
 package scratch.simple.webapp.security;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import scratch.simple.webapp.domain.User;
 
@@ -28,7 +30,12 @@ public class SSWUserDetailsFactoryTest {
         final UserDetails actual = new SSWUserDetailsFactory().create(user);
 
         // Then
+        assertThat(actual.getAuthorities(), Matchers.<GrantedAuthority>empty());
         assertThat(actual.getUsername(), is(username));
         assertThat(actual.getPassword(), is(password));
+        assertThat(actual.isAccountNonExpired(), is(true));
+        assertThat(actual.isAccountNonLocked(), is(true));
+        assertThat(actual.isCredentialsNonExpired(), is(true));
+        assertThat(actual.isEnabled(), is(true));
     }
 }

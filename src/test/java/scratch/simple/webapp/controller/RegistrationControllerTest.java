@@ -13,6 +13,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class RegistrationControllerTest {
@@ -24,6 +25,18 @@ public class RegistrationControllerTest {
     public void setUp() {
         userRepository = mock(UserRepository.class);
         controller = new RegistrationController(userRepository);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void Can_request_the_registration_page() {
+
+        // When
+        final String actual = controller.register();
+
+        // Then
+        assertThat(actual, equalTo("/html/registration.html"));
+        verifyZeroInteractions(userRepository);
     }
 
     @Test
