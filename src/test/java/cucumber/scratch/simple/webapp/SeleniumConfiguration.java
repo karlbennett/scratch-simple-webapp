@@ -10,7 +10,9 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import shiver.me.timbers.waiting.WaiterAspect;
 
+import static com.gargoylesoftware.htmlunit.BrowserVersion.FIREFOX_38;
 import static java.lang.String.format;
 
 @Configuration
@@ -20,7 +22,8 @@ public class SeleniumConfiguration {
     public WebDriver webDriver(@Value("${web.driver:htmlunit}") String webDriver) {
 
         if ("htmlunit".equals(webDriver)) {
-            return new HtmlUnitDriver(true);
+            // HTMLUnit must be set to emulate firefox for the JavaScript to work correctly.
+            return new HtmlUnitDriver(FIREFOX_38, true);
         }
 
         if ("chrome".equals(webDriver)) {
@@ -44,5 +47,10 @@ public class SeleniumConfiguration {
         }
 
         throw new IllegalArgumentException(format("Web driver %s not supported.", webDriver));
+    }
+
+    @Bean
+    public WaiterAspect waiterAspect() {
+        return new WaiterAspect();
     }
 }

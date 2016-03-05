@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import shiver.me.timbers.waiting.Wait;
 
 @Component
 public class SeleniumHomePage implements HomePage {
@@ -40,6 +41,7 @@ public class SeleniumHomePage implements HomePage {
         return "Simple Webapp (Home)".equals(driver.getTitle());
     }
 
+    @Wait
     @Override
     public String getUsername() {
         return finders.findByClassName("username").getText();
