@@ -35,7 +35,7 @@ public class RegistrationControllerTest {
         final String actual = controller.register();
 
         // Then
-        assertThat(actual, equalTo("/html/registration.html"));
+        assertThat(actual, equalTo("registration"));
         verifyZeroInteractions(userRepository);
     }
 

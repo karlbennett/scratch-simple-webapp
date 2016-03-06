@@ -28,7 +28,7 @@ public class RegistrationController {
 
     @RequestMapping(method = GET)
     public String register() {
-        return "/html/registration.html";
+        return "registration";
     }
 
     @RequestMapping(method = POST, consumes = APPLICATION_FORM_URLENCODED_VALUE)
