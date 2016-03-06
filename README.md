@@ -28,14 +28,14 @@ This will compile the code, package the classes, and run all the tests.
 
 You can run the application in three different ways.
 
-#### Maven
+##### Maven
 
 ```bash
 cd scratch-simple-webapp
 mvn clean spring-boot:run
 ```
 
-#### Executable WAR
+##### Executable WAR
 
 ```bash
 cd scratch-simple-webapp
@@ -43,7 +43,7 @@ mvn clean verify
 java -jar target/scratch-simple-webapp-1.0-SNAPSHOT.war
 ```
 
-#### Deploy to a Servlet Container
+##### Deploy to a Servlet Container
 
 ```bash
 cd scratch-simple-webapp
