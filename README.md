@@ -56,7 +56,7 @@ Then deploy the WAR file contained in the `target` directory.
 
 ### Building
 
-#### Spring Boot
+##### Spring Boot
 
 This project shows how to use the
 [Spring Boot parent pom](https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-build-systems.html#using-boot-maven-parent-pom)
@@ -64,24 +64,24 @@ and [plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/buil
 build a
 [Spring boot WAR project](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-create-a-deployable-war-file).
 
-#### Jasmine JavaScript
+##### Jasmine JavaScript
 
 The [jasmine-maven-plugin](http://searls.github.io/jasmine-maven-plugin/) has been used to execute JavaScript unit tests
 during the unit test build phase.
 
-#### Coverage
+##### Coverage
 
 The [cobertura-maven-plugin](http://www.mojohaus.org/cobertura-maven-plugin/) has been used to check the test coverage
 of the Java code and will fail the build if it ever drops below 100%.
 
 ### Spring
 
-#### Spring Boot
+##### Spring Boot
 
 Spring Boot is used to simplify the projects dependencies and configuration. The Spring Boot plugin is also utilised to
 generate an executable WAR that can be run in isolation or deployed to an existing servlet container.
 
-#### Spring Boot Mustache
+##### Spring Boot Mustache
 
 The [Mustache](https://mustache.github.io/) templating language has been used to generate dynamic pages. The
 configuration for this has been greatly simplified by using the
@@ -90,20 +90,20 @@ starter pom. Adding this dependency is enough to enable and start using the Must
 template files has been changed from `.html` to `.mustache` to allow better IDE integration. This configuration is in
 the [`application.properties`](src/main/resources/application.properties) file.
 
-#### Spring Security
+##### Spring Security
 
 Spring Security is used to add sign in functionality to the application, it is configured in the
 [`SecurityConfiguration`](src/main/java/scratch/simple/webapp/SecurityConfiguration.java) class and any other additional
 classes can be found under the [scratch.simple.webapp.security](src/main/java/scratch/simple/webapp/security/) package.
 
-#### Spring MVC
+##### Spring MVC
 
 The [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) controller,
 interceptor, and argument resolver features are used for URL mapping, session management, and also to automatically sign
 the user in after registration. The classes demonstrating this can be found in the
 [scratch.simple.webapp.controller](src/main/java/scratch/simple/webapp/controller/) package.
 
-#### Spring Data JPA
+##### Spring Data JPA
 
 [Spring Data JPA](http://projects.spring.io/spring-data-jpa/) is used for the account detail persistence. It is also
 integrated with Spring Security to provide the credentials for sign in. The auto-configuration features of Spring have
@@ -112,14 +112,14 @@ completely configured by simple adding the H2DB maven dependency. Also the Sprin
 been used to create the [`UserRepository`](src/main/java/scratch/simple/webapp/data/UserRepository.java) so that all
 that is needed to provided persistence is an interface without any actual data access code.
 
-## Testing
+### Testing
 
-### Unit Tests
+##### Unit Tests
 
 [JUnit](http://junit.org/) has been used to run all the unit tests and [Mockito](http://mockito.org/) is used to mock
 class dependencies.
 
-### JavaScript Unit Test
+##### JavaScript Unit Test
 
 [Jasmine](http://jasmine.github.io/) has been used to unit test the JavaScript code. These tests can be either run with
 the normal maven build.
@@ -138,7 +138,7 @@ karma run
 The `karma.conf.js` file can also be used to
 [run and debug the tests with Intellij](https://www.jetbrains.com/idea/help/running-unit-tests-on-karma.html).
 
-### Acceptance Tests
+##### Acceptance Tests
 
 [Cucumber JVM](https://cucumber.io/docs/reference/jvm)  has been used to run the acceptance tests, it has been
 integrated with the Spring Boot
