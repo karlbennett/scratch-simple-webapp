@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+
     <title>Simpe Webapp (Registration success)</title>
 </head>
 <body>
-<h1>Welcome {{username}}</h1>
+{{> header}}
 
-<p>
-    Your account has been setup. You can now view your <a href="/profile/{{username}}">profile</a>.
-</p>
+<div class="content-container">
+
+    <h1>Welcome {{username}}</h1>
+
+    <p>
+        Your account has been setup. You can now view your <a href="/profile/{{username}}">profile</a>.
+    </p>
+</div>
 </body>
 </html>

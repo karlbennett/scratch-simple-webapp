@@ -2,19 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/form.css">
+
     <title>Simpe Webapp (Registration)</title>
 </head>
 <body>
-<h1>Registration</h1>
+<div class="header-container">
+    <div class="signin">
+        <a href="/registration">Register</a>
+        <a href="/signIn">Sign In</a>
+    </div>
+    <div class="menu">
+        <a href="/">Home</a>
+    </div>
+</div>
 
-<p>
-    Register a new account with your choice of username and password.
-</p>
+<div class="content-container">
+    <h1>Registration</h1>
 
-<form method="post">
-    <label for="username">Username</label><input id="username" name="username" type="text">
-    <label for="password">Password</label><input id="password" name="password" type="text">
-    <input type="submit" value="Register">
-</form>
+    <p>
+        Register a new account with your choice of username and password.
+    </p>
+
+    <form class="form" method="post">
+        <div class="input">
+            <label for="username">Username</label><input id="username" name="username" type="text">
+        </div>
+        <div class="input">
+            <label for="password">Password</label><input id="password" name="password" type="password">
+        </div>
+        <div class="input">
+            <input type="submit" value="Register">
+        </div>
+    </form>
+</div>
 </body>
 </html>

@@ -2,13 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+
     <title>Simpe Webapp ({{username}})</title>
 </head>
 <body>
-<h1 class="username">{{username}}</h1>
+{{> header}}
 
-<p>
-    This is your profile page. Here you can edit your account settings.
-</p>
+<div class="content-container">
+    <h1 class="username">{{username}}</h1>
+
+    <p>
+        This is your profile page. Here you can edit your account settings.
+    </p>
+</div>
 </body>
 </html>
