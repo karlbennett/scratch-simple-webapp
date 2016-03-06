@@ -24,6 +24,9 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.DispatcherServlet;
 
+/**
+ * This is the main class that Spring boot uses to start the stand alone application.
+ */
 @SpringBootApplication
 public class ServletApplication extends SpringBootServletInitializer {
 
