@@ -74,14 +74,9 @@ during the unit test build phase.
 The [cobertura-maven-plugin](http://www.mojohaus.org/cobertura-maven-plugin/) has been used to check the test coverage
 of the Java code and will fail the build if it ever drops below 100%.
 
-### Spring
+### View Layer
 
-##### Spring Boot
-
-Spring Boot is used to simplify the projects dependencies and configuration. The Spring Boot plugin is also utilised to
-generate an executable WAR that can be run in isolation or deployed to an existing servlet container.
-
-##### Spring Boot Mustache
+##### Mustache
 
 The [Mustache](https://mustache.github.io/) templating language has been used to generate dynamic pages. The
 configuration for this has been greatly simplified by using the
@@ -89,6 +84,18 @@ configuration for this has been greatly simplified by using the
 starter pom. Adding this dependency is enough to enable and start using the Mustache view. Though the suffix of the
 template files has been changed from `.html` to `.mustache` to allow better IDE integration. This configuration is in
 the [`application.properties`](src/main/resources/application.properties) file.
+
+##### SASS
+
+The [SASS](http://sass-lang.com/) extension language has been used to simplify the CSS. It is compiled during the build
+by the [sass-maven-plugin](http://www.geodienstencentrum.nl/sass-maven-plugin/plugin-info.html).
+
+### Spring
+
+##### Spring Boot
+
+Spring Boot is used to simplify the projects dependencies and configuration. The Spring Boot plugin is also utilised to
+generate an executable WAR that can be run in isolation or deployed to an existing servlet container.
 
 ##### Spring Security
 
