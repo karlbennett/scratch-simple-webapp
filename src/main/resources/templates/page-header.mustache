@@ -1,0 +1,28 @@
+<link rel="import" href="/webjars/polymer/1.4.0/polymer.html">
+
+<dom-module id="page-header">
+    <template>
+        <div class="header-container">
+            {{^username}}
+                <div class="signin">
+                    <a href="/registration">Register</a>
+                    <a href="/signIn">Sign In</a>
+                </div>
+            {{/username}}
+            {{#username}}
+                <div class="username">
+                    <a href="/profile/{{username}}">{{username}}</a>
+                </div>
+            {{/username}}
+            <div class="menu">
+                <a href="/">Home</a>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: "page-header"
+        });
+    </script>
+</dom-module>

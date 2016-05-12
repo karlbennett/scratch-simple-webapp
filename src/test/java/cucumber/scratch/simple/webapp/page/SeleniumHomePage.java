@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import shiver.me.timbers.waiting.Wait;
 
 @Component
+@Wait
 public class SeleniumHomePage implements HomePage {
 
     private final WebDriver driver;
@@ -41,7 +42,6 @@ public class SeleniumHomePage implements HomePage {
         return "Simple Webapp (Home)".equals(driver.getTitle());
     }
 
-    @Wait
     @Override
     public String getUsername() {
         return finders.findByClassName("username").getText();

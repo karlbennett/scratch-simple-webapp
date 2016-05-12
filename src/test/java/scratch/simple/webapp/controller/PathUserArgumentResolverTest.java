@@ -22,50 +22,51 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST;
 import static org.springframework.web.servlet.HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
+import static shiver.me.timbers.data.random.RandomThings.someThing;
 
-public class ProfileUserArgumentResolverTest {
+public class PathUserArgumentResolverTest {
 
     private UserRepository userRepository;
-    private ProfileUserArgumentResolver resolver;
+    private PathUserArgumentResolver resolver;
 
     @Before
     public void setUp() {
         userRepository = mock(UserRepository.class);
-        resolver = new ProfileUserArgumentResolver(userRepository);
+        resolver = new PathUserArgumentResolver(userRepository);
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void Can_support_resolving_the_user_argument_for_the_profile_controller() {
+    public void Cannot_support_resolving_the_user_argument_for_the_registration_controller() {
 
         final MethodParameter parameter = mock(MethodParameter.class);
 
         // Given
-        given(parameter.getDeclaringClass()).willReturn((Class) ProfileController.class);
+        given(parameter.getDeclaringClass()).willReturn((Class) RegistrationController.class);
         given(parameter.getParameterType()).willReturn((Class) User.class);
 
         // When
         final boolean actual = resolver.supportsParameter(parameter);
 
         // Then
-        assertThat(actual, is(true));
+        assertThat(actual, is(false));
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void Cannot_support_resolving_the_user_argument_for_any_other_controller() {
+    public void Can_support_resolving_the_user_argument_for_any_other_controller() {
 
         final MethodParameter methodParameter = mock(MethodParameter.class);
 
         // Given
-        given(methodParameter.getDeclaringClass()).willReturn((Class) RegistrationController.class);
+        given(methodParameter.getDeclaringClass()).willReturn(someClass());
         given(methodParameter.getParameterType()).willReturn((Class) User.class);
 
         // When
         final boolean actual = resolver.supportsParameter(methodParameter);
 
         // Then
-        assertThat(actual, is(false));
+        assertThat(actual, is(true));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class ProfileUserArgumentResolverTest {
         final MethodParameter parameter = mock(MethodParameter.class);
 
         // Given
-        given(parameter.getDeclaringClass()).willReturn((Class) ProfileController.class);
+        given(parameter.getDeclaringClass()).willReturn(someClass());
         given(parameter.getParameterType()).willReturn((Class) Long.class);
 
         // When
@@ -157,5 +158,9 @@ public class ProfileUserArgumentResolverTest {
         // Then
         assertThat(actual, nullValue());
         verify(userRepository, never()).findByUsername(anyString());
+    }
+
+    private static Class someClass() {
+        return someThing(1, 2.0, "three").getClass();
     }
 }

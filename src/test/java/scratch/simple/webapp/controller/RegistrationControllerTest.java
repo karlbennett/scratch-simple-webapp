@@ -3,12 +3,11 @@ package scratch.simple.webapp.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -35,7 +34,7 @@ public class RegistrationControllerTest {
         final String actual = controller.register();
 
         // Then
-        assertThat(actual, equalTo("registration"));
+        assertThat(actual, equalTo("/html/registration.html"));
         verifyZeroInteractions(userRepository);
     }
 
@@ -63,14 +62,11 @@ public class RegistrationControllerTest {
     @Test
     public void Can_render_the_registration_success_page() {
 
-        // Given
-        final String username = someString();
-
         // When
-        final ModelAndView actual = controller.registrationSuccess(username);
+        final String actual = controller.registrationSuccess();
 
         // Then
-        assertThat(actual.getModel(), hasEntry("username", (Object) username));
-        assertThat(actual.getViewName(), equalTo("registration-success"));
+        assertThat(actual, is("/html/registration-success.html"));
+        verifyZeroInteractions(userRepository);
     }
 }

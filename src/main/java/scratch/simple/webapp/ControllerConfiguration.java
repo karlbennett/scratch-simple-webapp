@@ -6,7 +6,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import scratch.simple.webapp.controller.ProfileUserArgumentResolver;
+import scratch.simple.webapp.controller.PathUserArgumentResolver;
 import scratch.simple.webapp.controller.RegistrationAutoSignInInterceptor;
 import scratch.simple.webapp.controller.UsernameSessionInterceptor;
 import scratch.simple.webapp.data.UserRepository;
@@ -29,13 +29,13 @@ public class ControllerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("homepage");
-        registry.addViewController("/signIn").setViewName("signIn");
+        registry.addViewController("/").setViewName("/html/homepage.html");
+        registry.addViewController("/signIn").setViewName("/html/signIn.html");
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new ProfileUserArgumentResolver(userRepository));
+        argumentResolvers.add(new PathUserArgumentResolver(userRepository));
     }
 
     @Override

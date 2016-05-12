@@ -1,0 +1,20 @@
+<link rel="import" href="/webjars/polymer/1.4.0/polymer.html">
+
+<dom-module id="registration-success-message">
+    <template>
+        <div class="content-container">
+
+            <h1>Welcome {{username}}</h1>
+
+            <p>
+                Your account has been setup. You can now view your <a href="/profile/{{username}}">profile</a>.
+            </p>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: "registration-success-message"
+        });
+    </script>
+</dom-module>

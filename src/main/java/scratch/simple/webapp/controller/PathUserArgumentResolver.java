@@ -18,17 +18,17 @@ import static org.springframework.web.servlet.HandlerMapping.URI_TEMPLATE_VARIAB
  * {@link org.springframework.web.bind.annotation.ModelAttribute} because it seems to be the only way from stopping the
  * {@link org.springframework.web.bind.annotation.SessionAttributes} {@code User} from being injected into the method.
  */
-public class ProfileUserArgumentResolver implements HandlerMethodArgumentResolver {
+public class PathUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final UserRepository userRepository;
 
-    public ProfileUserArgumentResolver(UserRepository userRepository) {
+    public PathUserArgumentResolver(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return ProfileController.class.equals(parameter.getDeclaringClass()) &&
+        return !RegistrationController.class.equals(parameter.getDeclaringClass()) &&
             User.class.equals(parameter.getParameterType());
     }
 

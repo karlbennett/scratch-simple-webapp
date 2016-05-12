@@ -3,6 +3,7 @@ package cucumber.scratch.simple.webapp.page;
 import cucumber.scratch.simple.webapp.finder.Finders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import shiver.me.timbers.waiting.Wait;
 
 @Component
 public class SeleniumProfilePage implements ProfilePage {
@@ -14,6 +15,7 @@ public class SeleniumProfilePage implements ProfilePage {
         this.finders = finders;
     }
 
+    @Wait
     @Override
     public String getUsername() {
         return finders.findByClassName("username").getText();
