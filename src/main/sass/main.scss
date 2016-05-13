@@ -17,7 +17,7 @@ body {
     color: $font-colour;
   }
 
-  .menu, .signin, .username {
+  .menu, .signin {
     padding: 10px 0;
 
     a {
@@ -33,7 +33,7 @@ body {
     }
   }
 
-  .signin, .username {
+  .signin {
     float: right;
   }
 }

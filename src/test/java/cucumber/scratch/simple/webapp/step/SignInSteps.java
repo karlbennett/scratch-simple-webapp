@@ -1,5 +1,7 @@
 package cucumber.scratch.simple.webapp.step;
 
+import cucumber.api.PendingException;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -46,5 +48,10 @@ public class SignInSteps extends SpringBootSteps {
     @Then("^I should see that I am signed in$")
     public void I_should_see_that_I_am_signed_in() {
         assertThat("Should see username on the homepage.", homePage.getUsername(), is(userHolder.get().getUsername()));
+    }
+
+    @Then("^I should be able to sign out$")
+    public void I_should_be_able_to_sign_out() {
+        homePage.clickSignOut();
     }
 }

@@ -13,11 +13,17 @@ function UsernameElementFactory(document) {
 }
 
 UsernameElementFactory.prototype.create = function () {
-    var anchor = this.document.createElement('a');
+    var username = this.document.createElement('a');
+    username.setAttribute('class', 'username');
+
+    var signOut = this.document.createElement('a');
+    signOut.setAttribute('href', '/signOut');
+    signOut.appendChild(this.document.createTextNode('Sign Out'));
 
     var div = this.document.createElement('div');
-    div.setAttribute('class', 'username');
-    div.appendChild(anchor);
+    div.setAttribute('class', 'signin');
+    div.appendChild(username);
+    div.appendChild(signOut);
 
     return div;
 };
