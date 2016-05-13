@@ -90,6 +90,11 @@ the [`application.properties`](src/main/resources/application.properties) file.
 The [SASS](http://sass-lang.com/) extension language has been used to simplify the CSS. It is compiled during the build
 by the [sass-maven-plugin](http://www.geodienstencentrum.nl/sass-maven-plugin/plugin-info.html).
 
+##### Intellij IDEA HTML/CSS Reloading
+
+To get Intellij to reload modified static while running a Spring Boot app follow the instructions at
+[this link](http://garywaddell.com/2015/11/20/spring-boot-intellij-idea-not-reloading-static-content/).
+
 ### Spring
 
 ##### Spring Boot
