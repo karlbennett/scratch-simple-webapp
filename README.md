@@ -76,6 +76,12 @@ of the Java code and will fail the build if it ever drops below 100%.
 
 ### View Layer
 
+##### Polymer
+
+The [Polymer](https://www.polymer-project.org/1.0/docs/start/quick-tour.html) Javascript framework has been used to
+enable the use of [Web Components](https://www.w3.org/wiki/WebComponents/). It has been added to the project with a
+[WebJar](http://www.webjars.org/) maven [dependency](http://search.maven.org/#search|ga|1|a%3A%22polymer%22).
+
 ##### Mustache
 
 The [Mustache](https://mustache.github.io/) templating language has been used to generate dynamic pages. The
