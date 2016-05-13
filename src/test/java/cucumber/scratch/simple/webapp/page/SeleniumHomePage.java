@@ -29,12 +29,17 @@ public class SeleniumHomePage implements HomePage {
 
     @Override
     public void clickRegister() {
-        finders.clickByText("a", "Register");
+        clickLinkByText("Register");
     }
 
     @Override
     public void clickSignIn() {
-        finders.clickByText("a", "Sign In");
+        clickLinkByText("Sign In");
+    }
+
+    @Override
+    public void clickSignOut() {
+        clickLinkByText("Sign Out");
     }
 
     @Override
@@ -45,5 +50,9 @@ public class SeleniumHomePage implements HomePage {
     @Override
     public String getUsername() {
         return finders.findByClassName("username").getText();
+    }
+
+    private void clickLinkByText(String text) {
+        finders.clickByText("a", text);
     }
 }

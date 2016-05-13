@@ -60,6 +60,16 @@ public class SeleniumHomePageTest {
     }
 
     @Test
+    public void Can_sign_out() {
+
+        // When
+        page.clickSignOut();
+
+        // Then
+        verify(finders).clickByText("a", "Sign Out");
+    }
+
+    @Test
     public void Can_check_that_the_home_page_is_the_current_page() {
 
         // Given

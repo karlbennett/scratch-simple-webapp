@@ -6,3 +6,4 @@ Feature: Sign In
     When I sign in
     Then I should be on the homepage
     And I should see that I am signed in
+    And I should be able to sign out

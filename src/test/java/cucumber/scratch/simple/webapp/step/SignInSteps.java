@@ -47,4 +47,9 @@ public class SignInSteps extends SpringBootSteps {
     public void I_should_see_that_I_am_signed_in() {
         assertThat("Should see username on the homepage.", homePage.getUsername(), is(userHolder.get().getUsername()));
     }
+
+    @Then("^I should be able to sign out$")
+    public void I_should_be_able_to_sign_out() {
+        homePage.clickSignOut();
+    }
 }

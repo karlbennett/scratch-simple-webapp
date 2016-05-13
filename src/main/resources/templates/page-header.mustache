@@ -4,17 +4,16 @@
     <template>
         <link rel="stylesheet" type="text/css" href="/css/header.css">
         <div class="header-container">
-            {{^username}}
-                <div class="signin">
+            <div class="signin">
+                {{^username}}
                     <a href="/registration">Register</a>
                     <a href="/signIn">Sign In</a>
-                </div>
-            {{/username}}
-            {{#username}}
-                <div class="username">
-                    <a href="/profile/{{username}}">{{username}}</a>
-                </div>
-            {{/username}}
+                {{/username}}
+                {{#username}}
+                    <a href="/profile/{{username}}" class="username">{{username}}</a>
+                    <a href="/signOut">Sign Out</a>
+                {{/username}}
+            </div>
             <div class="menu">
                 <a href="/">Home</a>
             </div>

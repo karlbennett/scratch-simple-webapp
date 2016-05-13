@@ -121,4 +121,14 @@ public class SignInStepsTest {
         // When
         inSteps.I_should_see_that_I_am_signed_in();
     }
+
+    @Test
+    public void Can_sign_out() {
+
+        // When
+        inSteps.I_should_be_able_to_sign_out();
+
+        // Then
+        verify(homePage).clickSignOut();
+    }
 }

@@ -4,6 +4,7 @@ import cucumber.scratch.simple.webapp.domain.User;
 import cucumber.scratch.simple.webapp.finder.Finders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import shiver.me.timbers.waiting.Wait;
 
 @Component
 public class SeleniumSignInPage implements SignInPage {
@@ -15,6 +16,7 @@ public class SeleniumSignInPage implements SignInPage {
         this.finders = finders;
     }
 
+    @Wait
     @Override
     public void signIn(User user) {
         finders.setTextByLabel("Username", user.getUsername());

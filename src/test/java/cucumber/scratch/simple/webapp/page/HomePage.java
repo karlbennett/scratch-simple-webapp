@@ -8,6 +8,8 @@ public interface HomePage {
 
     void clickSignIn();
 
+    void clickSignOut();
+
     boolean isCurrentPage();
 
     String getUsername();
