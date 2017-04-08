@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.openqa.selenium.OutputType.*;
+import static org.openqa.selenium.OutputType.BYTES;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,7 +31,7 @@ public class Hooks {
     @After
     public void tearDown(Scenario scenario) {
         if (scenario.isFailed()) {
-            scenario.embed(((TakesScreenshot)driver).getScreenshotAs(BYTES), "image/png");
+            scenario.embed(((TakesScreenshot) driver).getScreenshotAs(BYTES), "image/png");
         }
 
         driver.manage().deleteAllCookies();

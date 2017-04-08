@@ -141,6 +141,7 @@ mvn clean test
 Or with [Karma](https://karma-runner.github.io/0.13/index.html) that is configured with the contained
 [`karma.conf.js`](karma.conf.js) file.
 ```bash
+sudo npm install -g karma karma-jsmockito-jshamcrest karma-jasmine jasmine-core karma-chrome-launcher
 karma start
 ```
 Then open the server url in a browser and run the tests.

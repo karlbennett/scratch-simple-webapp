@@ -14,7 +14,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.openqa.selenium.OutputType.*;
+import static org.openqa.selenium.OutputType.BYTES;
 import static org.openqa.selenium.WebDriver.Options;
 import static shiver.me.timbers.data.random.RandomBytes.someBytes;
 

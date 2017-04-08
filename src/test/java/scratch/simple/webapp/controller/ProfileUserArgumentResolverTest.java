@@ -90,8 +90,7 @@ public class ProfileUserArgumentResolverTest {
 
         final NativeWebRequest request = mock(NativeWebRequest.class);
 
-        @SuppressWarnings("unchecked")
-        final Map<String, String> pathVariables = mock(Map.class);
+        @SuppressWarnings("unchecked") final Map<String, String> pathVariables = mock(Map.class);
         final String username = someString();
 
         final User expected = mock(User.class);
@@ -139,8 +138,7 @@ public class ProfileUserArgumentResolverTest {
 
         final NativeWebRequest request = mock(NativeWebRequest.class);
 
-        @SuppressWarnings("unchecked")
-        final Map<String, String> pathVariables = mock(Map.class);
+        @SuppressWarnings("unchecked") final Map<String, String> pathVariables = mock(Map.class);
 
         // Given
         given(request.getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE, SCOPE_REQUEST)).willReturn(pathVariables);

@@ -39,8 +39,7 @@ public class ProfileUserArgumentResolver implements HandlerMethodArgumentResolve
         NativeWebRequest request,
         WebDataBinderFactory binderFactory
     ) throws Exception {
-        @SuppressWarnings("unchecked")
-        final Map<String, String> pathVariables = (Map<String, String>) request
+        @SuppressWarnings("unchecked") final Map<String, String> pathVariables = (Map<String, String>) request
             .getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE, SCOPE_REQUEST);
 
         if (pathVariables == null) {
