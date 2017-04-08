@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.3.2.RELEASE</version>
+        <version>1.5.2.RELEASE</version>
     </parent>
 
     <groupId>scratch</groupId>
@@ -35,7 +35,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <cucumber.version>1.2.4</cucumber.version>
+        <cucumber.version>1.2.5</cucumber.version>
     </properties>
 
     <profiles>
@@ -62,7 +62,7 @@
                 <!-- This will run the JavaScript unit tests during the build. -->
                 <groupId>com.github.searls</groupId>
                 <artifactId>jasmine-maven-plugin</artifactId>
-                <version>2.0-beta-02</version>
+                <version>2.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -154,7 +154,7 @@
                 <!-- Compile the SASS into CSS. -->
                 <groupId>nl.geodienstencentrum.maven</groupId>
                 <artifactId>sass-maven-plugin</artifactId>
-                <version>2.16</version>
+                <version>2.23</version>
                 <configuration>
                     <destination>src/main/resources/META-INF/resources/css</destination>
                 </configuration>
@@ -196,7 +196,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.191</version>
+            <version>1.4.194</version>
         </dependency>
 
         <!-- Test dependencies below this point. -->
@@ -225,13 +225,13 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.52.0</version>
+            <version>3.3.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.shiver-me-timbers</groupId>
             <artifactId>smt-random</artifactId>
-            <version>1.7</version>
+            <version>1.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -243,7 +243,7 @@
         <dependency>
             <groupId>com.github.shiver-me-timbers</groupId>
             <artifactId>smt-waiting-aspect</artifactId>
-            <version>3.0</version>
+            <version>4.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -253,12 +253,6 @@
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
             <version>1.4.01</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
-            <artifactId>htmlunit</artifactId>
-            <version>2.19</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

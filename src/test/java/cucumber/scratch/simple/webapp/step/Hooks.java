@@ -1,10 +1,25 @@
 package cucumber.scratch.simple.webapp.step;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
+import cucumber.scratch.simple.webapp.ITCucumber;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class Hooks extends SpringBootSteps {
+import static org.openqa.selenium.OutputType.*;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ITCucumber.class)
+@TestPropertySource("/test.properties")
+@SpringBootTest(webEnvironment = DEFINED_PORT)
+public class Hooks {
 
     private final WebDriver driver;
 
@@ -14,7 +29,11 @@ public class Hooks extends SpringBootSteps {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown(Scenario scenario) {
+        if (scenario.isFailed()) {
+            scenario.embed(((TakesScreenshot)driver).getScreenshotAs(BYTES), "image/png");
+        }
+
         driver.manage().deleteAllCookies();
     }
 }

@@ -1,7 +1,5 @@
 package cucumber.scratch.simple.webapp.step;
 
-import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -13,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SignInSteps extends SpringBootSteps {
+public class SignInSteps {
 
     private final UserFactory userFactory;
     private final UserHolder userHolder;

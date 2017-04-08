@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-public class RegistrationSteps extends SpringBootSteps {
+public class RegistrationSteps {
 
     private final UserFactory userFactory;
     private final UserHolder userHolder;
