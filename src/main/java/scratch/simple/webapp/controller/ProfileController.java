@@ -11,7 +11,7 @@ import scratch.simple.webapp.domain.User;
 @SessionAttributes("username")
 public class ProfileController {
 
-    @RequestMapping(path = "/{username}")
+    @RequestMapping
     public ModelAndView profile(User user) {
         return new ModelAndView("profile")
             .addObject("username", user.getUsername())

@@ -9,7 +9,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -19,8 +20,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST;
-import static org.springframework.web.servlet.HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class ProfileUserArgumentResolverTest {
@@ -90,14 +89,16 @@ public class ProfileUserArgumentResolverTest {
 
         final NativeWebRequest request = mock(NativeWebRequest.class);
 
-        @SuppressWarnings("unchecked") final Map<String, String> pathVariables = mock(Map.class);
+        final HttpServletRequest nativeRequest = mock(HttpServletRequest.class);
+        final HttpSession session = mock(HttpSession.class);
         final String username = someString();
 
         final User expected = mock(User.class);
 
         // Given
-        given(request.getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE, SCOPE_REQUEST)).willReturn(pathVariables);
-        given(pathVariables.get("username")).willReturn(username);
+        given(request.getNativeRequest()).willReturn(nativeRequest);
+        given(nativeRequest.getSession()).willReturn(session);
+        given(session.getAttribute("username")).willReturn(username);
         given(userRepository.findByUsername(username)).willReturn(expected);
 
         // When
@@ -113,36 +114,17 @@ public class ProfileUserArgumentResolverTest {
     }
 
     @Test
-    public void Will_not_resolve_anything_if_no_path_variables_are_present() throws Exception {
+    public void Will_not_resolve_anything_if_no_username_is_present_in_the_session() throws Exception {
 
         final NativeWebRequest request = mock(NativeWebRequest.class);
 
-        // Given
-        given(request.getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE, SCOPE_REQUEST)).willReturn(null);
-
-        // When
-        final Object actual = resolver.resolveArgument(
-            mock(MethodParameter.class),
-            mock(ModelAndViewContainer.class),
-            request,
-            mock(WebDataBinderFactory.class)
-        );
-
-        // Then
-        assertThat(actual, nullValue());
-        verify(userRepository, never()).findByUsername(anyString());
-    }
-
-    @Test
-    public void Will_not_resolve_anything_if_no_username_path_variable_is_present() throws Exception {
-
-        final NativeWebRequest request = mock(NativeWebRequest.class);
-
-        @SuppressWarnings("unchecked") final Map<String, String> pathVariables = mock(Map.class);
+        final HttpServletRequest nativeRequest = mock(HttpServletRequest.class);
+        final HttpSession session = mock(HttpSession.class);
 
         // Given
-        given(request.getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE, SCOPE_REQUEST)).willReturn(pathVariables);
-        given(pathVariables.get("username")).willReturn(null);
+        given(request.getNativeRequest()).willReturn(nativeRequest);
+        given(nativeRequest.getSession()).willReturn(session);
+        given(session.getAttribute("username")).willReturn(null);
 
         // When
         final Object actual = resolver.resolveArgument(

@@ -36,7 +36,7 @@ UsernameReplacerFactory.prototype.create = function (usernameElement) {
   var document = this.document;
   return function (username) {
     var anchor = usernameElement.getElementsByTagName('a')[0];
-    anchor.setAttribute('href', '/profile/' + username);
+    anchor.setAttribute('href', '/profile');
     anchor.appendChild(document.createTextNode(username));
 
     var signin = document.getElementsByClassName('signin')[0];

@@ -8,10 +8,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 
-import java.util.Map;
-
-import static org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST;
-import static org.springframework.web.servlet.HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * We use an argument resolver for the profile {@link User} instead of a
@@ -39,19 +36,14 @@ public class ProfileUserArgumentResolver implements HandlerMethodArgumentResolve
         NativeWebRequest request,
         WebDataBinderFactory binderFactory
     ) throws Exception {
-        @SuppressWarnings("unchecked") final Map<String, String> pathVariables = (Map<String, String>) request
-            .getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE, SCOPE_REQUEST);
+        final Object username = ((HttpServletRequest) request.getNativeRequest()).getSession()
+            .getAttribute("username");
 
-        if (pathVariables == null) {
-            return null;
-        }
-
-        final String username = pathVariables.get("username");
         if (username == null) {
             return null;
         }
 
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username.toString());
     }
 }
 

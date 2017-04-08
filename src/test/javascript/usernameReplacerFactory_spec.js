@@ -22,7 +22,7 @@ describe('Replace the sign in with the username', function () {
     new UsernameReplacerFactory(document).create(usernameElement)(username);
 
     // Then
-    verify(anchor).setAttribute('href', '/profile/' + username);
+    verify(anchor).setAttribute('href', '/profile');
     verify(anchor).appendChild(text);
     verify(signinParent).replaceChild(usernameElement, signin);
   });
