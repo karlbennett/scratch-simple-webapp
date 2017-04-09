@@ -19,7 +19,6 @@ describe('Make HTTP requests', function () {
       assertThat(response.body(), hasMember('username', username))
     });
     request.readyState = 4;
-    request.responseURL = 'http://so.me/where' + path;
     request.status = 200;
     request.responseText = text;
 
@@ -46,7 +45,6 @@ describe('Make HTTP requests', function () {
     // Given
     when(xmlHttpRequestFactory).create().thenReturn(request);
     request.readyState = 4;
-    request.responseURL = 'http://so.me/where' + path;
     request.status = 200;
     request.overrideMimeType = undefined;
 
@@ -73,7 +71,6 @@ describe('Make HTTP requests', function () {
     // Given
     when(xmlHttpRequestFactory).create().thenReturn(request);
     request.readyState = 3;
-    request.responseURL = 'http://so.me/where' + path;
 
     // When
     new HttpClient(xmlHttpRequestFactory).path(path).get(responseHandler);
@@ -102,7 +99,7 @@ describe('Make HTTP requests', function () {
       assertThat(response.body(), is(text));
     });
     request.readyState = 4;
-    request.responseURL = 'http://so.me/where' + path;
+    request.responseURL = undefined;
     request.status = 200;
     request.responseText = text;
 
@@ -129,7 +126,7 @@ describe('Make HTTP requests', function () {
     // Given
     when(xmlHttpRequestFactory).create().thenReturn(request);
     request.readyState = 4;
-    request.responseURL = 'http://so.me/where' + path;
+    request.responseURL = null;
     request.status = 400;
 
     // When

@@ -86,7 +86,12 @@ HttpClient.prototype.get = function (responseHandler) {
   }
   var path = this._path;
   request.onreadystatechange = function () {
-    if (request.readyState !== 4 || !request.responseURL.endsWith(path)) {
+    function isRedirect(request) {
+      var responseURL = request.responseURL;
+      return responseURL !== undefined && responseURL !== null && !responseURL.endsWith(path)
+    }
+
+    if (request.readyState !== 4 || isRedirect(request)) {
       return;
     }
 

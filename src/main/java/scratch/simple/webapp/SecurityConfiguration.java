@@ -12,19 +12,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import scratch.simple.webapp.jwt.Base64Key;
 import scratch.simple.webapp.jwt.JwtEncoder;
 import scratch.simple.webapp.security.AuthenticationFactory;
 import scratch.simple.webapp.security.JwtAuthenticationFilter;
 import scratch.simple.webapp.security.JwtAuthenticationSuccessHandler;
 import scratch.simple.webapp.security.SecurityContextHolder;
 
-import javax.crypto.SecretKey;
 import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.Base64;
 
-import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -81,29 +77,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public KeyPair keyPair(@Value("${jwt.secret}") String secret) {
         final Base64Key key = new Base64Key(secret);
         return new KeyPair(key, key);
-    }
-
-    private class Base64Key implements PrivateKey, PublicKey, SecretKey {
-
-        private final String secret;
-
-        private Base64Key(String secret) {
-            this.secret = secret;
-        }
-
-        @Override
-        public String getAlgorithm() {
-            return HS512.getJcaName();
-        }
-
-        @Override
-        public String getFormat() {
-            return "RAW";
-        }
-
-        @Override
-        public byte[] getEncoded() {
-            return Base64.getEncoder().encode(secret.getBytes());
-        }
     }
 }

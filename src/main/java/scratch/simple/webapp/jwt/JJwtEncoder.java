@@ -51,7 +51,7 @@ public class JJwtEncoder implements JwtEncoder {
             .filter(sa -> sa.getJcaName().equals(privateKey.getAlgorithm()))
             .findFirst()
             .orElseThrow(
-                () -> new IllegalStateException("The supplied private key does not have contain a valid algorithm.")
+                () -> new IllegalStateException("The supplied private key does not contain a valid algorithm.")
             );
     }
 }
