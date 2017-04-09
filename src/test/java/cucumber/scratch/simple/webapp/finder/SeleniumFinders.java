@@ -23,6 +23,11 @@ public class SeleniumFinders implements Finders {
     }
 
     @Override
+    public String findTextByClassName(String className) {
+        return findByClassName(className).getText();
+    }
+
+    @Override
     public WebElement findByText(String tag, String text) {
         return driver.findElement(by.text(tag, text));
     }

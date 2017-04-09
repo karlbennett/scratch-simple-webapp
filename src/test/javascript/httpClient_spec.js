@@ -4,7 +4,7 @@ describe('Make HTTP requests', function () {
 
     var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
 
-    var url = 'http://so.me/where';
+    var path = '/a/path';
     var responseHandler = mockFunction();
 
     var request = mock(XMLHttpRequest);
@@ -19,17 +19,18 @@ describe('Make HTTP requests', function () {
       assertThat(response.body(), hasMember('username', username))
     });
     request.readyState = 4;
+    request.responseURL = 'http://so.me/where' + path;
     request.status = 200;
     request.responseText = text;
 
     // When
-    new HttpClient(xmlHttpRequestFactory).path(url).accept(mimeType).get(responseHandler);
+    new HttpClient(xmlHttpRequestFactory).path(path).accept(mimeType).get(responseHandler);
     request.onreadystatechange();
 
     // Then
     verify(responseHandler)(instanceOf(Response));
     verify(request).overrideMimeType(mimeType);
-    verify(request).open('GET', url, true);
+    verify(request).open('GET', path, true);
     verify(request).send();
   });
 
@@ -37,7 +38,7 @@ describe('Make HTTP requests', function () {
 
     var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
 
-    var url = 'http://so.me/where';
+    var path = '/a/path';
     var responseHandler = mockFunction();
 
     var request = mock(XMLHttpRequest);
@@ -45,17 +46,18 @@ describe('Make HTTP requests', function () {
     // Given
     when(xmlHttpRequestFactory).create().thenReturn(request);
     request.readyState = 4;
+    request.responseURL = 'http://so.me/where' + path;
     request.status = 200;
     request.overrideMimeType = undefined;
 
     // When
-    new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+    new HttpClient(xmlHttpRequestFactory).path(path).get(responseHandler);
     request.onreadystatechange();
 
     // Then
     verify(responseHandler)(instanceOf(Response));
     verify(request, never()).overrideMimeType(anything());
-    verify(request).open('GET', url, true);
+    verify(request).open('GET', path, true);
     verify(request).send();
   });
 
@@ -63,7 +65,7 @@ describe('Make HTTP requests', function () {
 
     var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
 
-    var url = 'http://so.me/where';
+    var path = '/a/path';
     var responseHandler = mockFunction();
 
     var request = mock(XMLHttpRequest);
@@ -71,14 +73,15 @@ describe('Make HTTP requests', function () {
     // Given
     when(xmlHttpRequestFactory).create().thenReturn(request);
     request.readyState = 3;
+    request.responseURL = 'http://so.me/where' + path;
 
     // When
-    new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+    new HttpClient(xmlHttpRequestFactory).path(path).get(responseHandler);
     request.onreadystatechange();
 
     // Then
     verify(responseHandler, never())(anything());
-    verify(request).open('GET', url, true);
+    verify(request).open('GET', path, true);
     verify(request).send();
   });
 
@@ -86,7 +89,7 @@ describe('Make HTTP requests', function () {
 
     var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
 
-    var url = 'http://so.me/where';
+    var path = '/a/path';
     var responseHandler = mockFunction();
 
     var request = mock(XMLHttpRequest);
@@ -99,16 +102,17 @@ describe('Make HTTP requests', function () {
       assertThat(response.body(), is(text));
     });
     request.readyState = 4;
+    request.responseURL = 'http://so.me/where' + path;
     request.status = 200;
     request.responseText = text;
 
     // When
-    new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+    new HttpClient(xmlHttpRequestFactory).path(path).get(responseHandler);
     request.onreadystatechange();
 
     // Then
     verify(responseHandler)(instanceOf(Response));
-    verify(request).open('GET', url, true);
+    verify(request).open('GET', path, true);
     verify(request).send();
   });
 
@@ -116,7 +120,7 @@ describe('Make HTTP requests', function () {
 
     var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
 
-    var url = 'http://so.me/where';
+    var path = '/a/path';
     var responseHandler = mockFunction();
 
     var request = mock(XMLHttpRequest);
@@ -125,15 +129,42 @@ describe('Make HTTP requests', function () {
     // Given
     when(xmlHttpRequestFactory).create().thenReturn(request);
     request.readyState = 4;
+    request.responseURL = 'http://so.me/where' + path;
     request.status = 400;
 
     // When
-    new HttpClient(xmlHttpRequestFactory).path(url).get(responseHandler);
+    new HttpClient(xmlHttpRequestFactory).path(path).get(responseHandler);
     request.onreadystatechange();
 
     // Then
     verify(responseHandler, never())(anything());
-    verify(request).open('GET', url, true);
+    verify(request).open('GET', path, true);
+    verify(request).send();
+  });
+
+  it('Will not attempt to handle a redirect', function () {
+
+    var xmlHttpRequestFactory = mock(XMLHttpRequestFactory);
+
+    var path = '/a/path';
+    var responseHandler = mockFunction();
+
+    var request = mock(XMLHttpRequest);
+    var text = 'some text';
+
+    // Given
+    when(xmlHttpRequestFactory).create().thenReturn(request);
+    request.readyState = 4;
+    request.responseURL = 'http://so.me/where/else';
+    request.status = 200;
+
+    // When
+    new HttpClient(xmlHttpRequestFactory).path(path).get(responseHandler);
+    request.onreadystatechange();
+
+    // Then
+    verify(responseHandler, never())(anything());
+    verify(request).open('GET', path, true);
     verify(request).send();
   });
 

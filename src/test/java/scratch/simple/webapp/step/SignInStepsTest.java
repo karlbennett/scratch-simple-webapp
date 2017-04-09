@@ -131,4 +131,41 @@ public class SignInStepsTest {
         // Then
         verify(homePage).clickSignOut();
     }
+
+    @Test
+    public void Can_check_that_the_user_can_sign_in() {
+
+        final User user = mock(User.class);
+
+        final String username = someString();
+
+        // Given
+        given(userHolder.get()).willReturn(user);
+        given(user.getUsername()).willReturn(username);
+        given(homePage.getUsername()).willReturn(username);
+
+        // When
+        inSteps.I_should_be_able_to_sign_in();
+
+        // Then
+        final InOrder order = inOrder(homePage, signInPage);
+        order.verify(homePage).visit();
+        order.verify(homePage).clickSignIn();
+        order.verify(signInPage).signIn(user);
+        order.verify(homePage).getUsername();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void Can_check_that_the_user_cannot_sign_in() {
+
+        final User user = mock(User.class);
+
+        // Given
+        given(userHolder.get()).willReturn(user);
+        given(user.getUsername()).willReturn(someString());
+        given(homePage.getUsername()).willReturn(someString());
+
+        // When
+        inSteps.I_should_be_able_to_sign_in();
+    }
 }

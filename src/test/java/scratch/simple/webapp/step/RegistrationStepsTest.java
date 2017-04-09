@@ -18,6 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someNumericString;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
+import static shiver.me.timbers.data.random.RandomThings.someThing;
 
 public class RegistrationStepsTest {
 
@@ -90,7 +91,8 @@ public class RegistrationStepsTest {
         // Given
         given(userHolder.get()).willReturn(user);
         given(user.getUsername()).willReturn(username);
-        given(registrationSuccessPage.getWelcome()).willReturn("Welcome " + username);
+        given(registrationSuccessPage.getWelcome()).willReturn("Welcome");
+        given(registrationSuccessPage.getMessage()).willReturn("Your account has been setup. You can now Sign In.");
 
         // When
         steps.the_registration_should_have_succeeded();
@@ -107,30 +109,10 @@ public class RegistrationStepsTest {
         // Given
         given(userHolder.get()).willReturn(user);
         given(user.getUsername()).willReturn(someString());
-        given(registrationSuccessPage.getWelcome()).willReturn(someString());
+        given(registrationSuccessPage.getWelcome()).willReturn(someThing(someString(), "Welcome"));
+        given(registrationSuccessPage.getMessage()).willReturn(someString());
 
         // When
         steps.the_registration_should_have_succeeded();
-    }
-
-    @Test
-    public void Can_go_to_the_profile_page() {
-
-        final User user = mock(User.class);
-
-        final String username = someNumericString();
-
-        // Given
-        given(userHolder.get()).willReturn(user);
-        given(user.getUsername()).willReturn(username);
-        given(profilePage.getUsername()).willReturn(username);
-
-        // When
-        steps.I_can_navigate_to_my_profile();
-
-        // Then
-        final InOrder order = inOrder(registrationSuccessPage, profilePage);
-        order.verify(registrationSuccessPage).clickProfile();
-        order.verify(profilePage).getUsername();
     }
 }

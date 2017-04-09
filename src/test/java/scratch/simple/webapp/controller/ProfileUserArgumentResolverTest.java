@@ -9,8 +9,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -89,16 +88,14 @@ public class ProfileUserArgumentResolverTest {
 
         final NativeWebRequest request = mock(NativeWebRequest.class);
 
-        final HttpServletRequest nativeRequest = mock(HttpServletRequest.class);
-        final HttpSession session = mock(HttpSession.class);
+        final Principal principal = mock(Principal.class);
         final String username = someString();
 
         final User expected = mock(User.class);
 
         // Given
-        given(request.getNativeRequest()).willReturn(nativeRequest);
-        given(nativeRequest.getSession()).willReturn(session);
-        given(session.getAttribute("username")).willReturn(username);
+        given(request.getUserPrincipal()).willReturn(principal);
+        given(principal.getName()).willReturn(username);
         given(userRepository.findByUsername(username)).willReturn(expected);
 
         // When
@@ -110,7 +107,7 @@ public class ProfileUserArgumentResolverTest {
         );
 
         // Then
-        assertThat(actual, is((Object) expected));
+        assertThat(actual, is(expected));
     }
 
     @Test
@@ -118,13 +115,8 @@ public class ProfileUserArgumentResolverTest {
 
         final NativeWebRequest request = mock(NativeWebRequest.class);
 
-        final HttpServletRequest nativeRequest = mock(HttpServletRequest.class);
-        final HttpSession session = mock(HttpSession.class);
-
         // Given
-        given(request.getNativeRequest()).willReturn(nativeRequest);
-        given(nativeRequest.getSession()).willReturn(session);
-        given(session.getAttribute("username")).willReturn(null);
+        given(request.getUserPrincipal()).willReturn(null);
 
         // When
         final Object actual = resolver.resolveArgument(

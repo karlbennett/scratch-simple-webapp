@@ -12,7 +12,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
-public class SSWUserDetailsFactoryTest {
+public class SimpleUserDetailsFactoryTest {
 
     @Test
     public void Can_create_a_user_details() {
@@ -27,7 +27,7 @@ public class SSWUserDetailsFactoryTest {
         given(user.getPassword()).willReturn(password);
 
         // When
-        final UserDetails actual = new SSWUserDetailsFactory().create(user);
+        final UserDetails actual = new SimpleUserDetailsFactory().create(user);
 
         // Then
         assertThat(actual.getAuthorities(), Matchers.<GrantedAuthority>empty());

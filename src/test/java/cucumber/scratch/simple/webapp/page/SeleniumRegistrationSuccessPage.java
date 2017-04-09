@@ -16,11 +16,11 @@ public class SeleniumRegistrationSuccessPage implements RegistrationSuccessPage 
 
     @Override
     public String getWelcome() {
-        return finders.findByText("h1", "Welcome").getText();
+        return finders.findTextByClassName("registration-success-heading");
     }
 
     @Override
-    public void clickProfile() {
-        finders.clickByText("a", "profile");
+    public String getMessage() {
+        return finders.findTextByClassName("registration-success-message");
     }
 }

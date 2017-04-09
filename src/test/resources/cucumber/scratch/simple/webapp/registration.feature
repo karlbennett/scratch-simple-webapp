@@ -5,4 +5,4 @@ Feature: Registration
     Given I am a new user
     When I register a new account
     Then the registration should have succeeded
-    And I can navigate to my profile
+    And I should be able to sign in

@@ -52,4 +52,10 @@ public class SignInSteps {
     public void I_should_be_able_to_sign_out() {
         homePage.clickSignOut();
     }
+
+    @Then("^I should be able to sign in$")
+    public void I_should_be_able_to_sign_in() {
+        I_sign_in();
+        I_should_see_that_I_am_signed_in();
+    }
 }

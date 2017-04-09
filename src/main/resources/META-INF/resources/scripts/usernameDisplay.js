@@ -84,8 +84,9 @@ HttpClient.prototype.get = function (responseHandler) {
   if (request.overrideMimeType) {
     request.overrideMimeType(this._accept);
   }
+  var path = this._path;
   request.onreadystatechange = function () {
-    if (request.readyState !== 4) {
+    if (request.readyState !== 4 || !request.responseURL.endsWith(path)) {
       return;
     }
 

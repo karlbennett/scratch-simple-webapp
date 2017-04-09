@@ -48,6 +48,28 @@ public class SeleniumFindersTest {
     }
 
     @Test
+    public void Can_find_an_elements_text_by_a_class_name() {
+
+        final String className = someString();
+
+        final By byText = mock(By.class);
+        final WebElement element = mock(WebElement.class);
+
+        final String expected = someString();
+
+        // Given
+        given(by.className(className)).willReturn(byText);
+        given(driver.findElement(byText)).willReturn(element);
+        given(element.getText()).willReturn(expected);
+
+        // When
+        final String actual = finders.findTextByClassName(className);
+
+        // Then
+        assertThat(actual, is(expected));
+    }
+
+    @Test
     public void Can_find_an_element_by_its_text() {
 
         final String tag = someString();
@@ -90,7 +112,6 @@ public class SeleniumFindersTest {
     @Test
     public void Can_click_an_input_by_its_text() {
 
-        final String tag = someString();
         final String value = someString();
 
         final By byValue = mock(By.class);

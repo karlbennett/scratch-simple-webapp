@@ -53,12 +53,7 @@ public class RegistrationSteps {
 
     @Then("^the registration should have succeeded$")
     public void the_registration_should_have_succeeded() {
-        assertThat(registrationSuccessPage.getWelcome(), equalTo("Welcome " + userHolder.get().getUsername()));
-    }
-
-    @Then("^I can navigate to my profile$")
-    public void I_can_navigate_to_my_profile() {
-        registrationSuccessPage.clickProfile();
-        assertThat(profilePage.getUsername(), equalTo(userHolder.get().getUsername()));
+        assertThat(registrationSuccessPage.getWelcome(), equalTo("Welcome"));
+        assertThat(registrationSuccessPage.getMessage(), equalTo("Your account has been setup. You can now Sign In."));
     }
 }

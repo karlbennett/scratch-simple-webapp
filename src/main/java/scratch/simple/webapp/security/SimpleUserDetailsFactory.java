@@ -10,7 +10,7 @@ import java.util.Collection;
 import static java.util.Collections.emptySet;
 
 @Component
-public class SSWUserDetailsFactory implements UserDetailsFactory {
+public class SimpleUserDetailsFactory implements UserDetailsFactory {
 
     @Override
     public UserDetails create(final User user) {

@@ -8,7 +8,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 
-import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 /**
  * We use an argument resolver for the profile {@link User} instead of a
@@ -36,14 +36,13 @@ public class ProfileUserArgumentResolver implements HandlerMethodArgumentResolve
         NativeWebRequest request,
         WebDataBinderFactory binderFactory
     ) throws Exception {
-        final Object username = ((HttpServletRequest) request.getNativeRequest()).getSession()
-            .getAttribute("username");
+        final Principal principal = request.getUserPrincipal();
 
-        if (username == null) {
+        if (principal == null) {
             return null;
         }
 
-        return userRepository.findByUsername(username.toString());
+        return userRepository.findByUsername(principal.getName());
     }
 }
 
