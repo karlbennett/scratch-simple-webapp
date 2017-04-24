@@ -5,7 +5,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.scratch.simple.webapp.domain.UserFactory;
 import cucumber.scratch.simple.webapp.page.HomePage;
-import cucumber.scratch.simple.webapp.page.ProfilePage;
 import cucumber.scratch.simple.webapp.page.RegistrationPage;
 import cucumber.scratch.simple.webapp.page.RegistrationSuccessPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ public class RegistrationSteps {
     private final HomePage homePage;
     private final RegistrationPage registrationPage;
     private final RegistrationSuccessPage registrationSuccessPage;
-    private final ProfilePage profilePage;
 
     @Autowired
     public RegistrationSteps(
@@ -28,15 +26,13 @@ public class RegistrationSteps {
         UserHolder userHolder,
         HomePage homePage,
         RegistrationPage registrationPage,
-        RegistrationSuccessPage registrationSuccessPage,
-        ProfilePage profilePage
+        RegistrationSuccessPage registrationSuccessPage
     ) {
         this.userFactory = userFactory;
         this.userHolder = userHolder;
         this.homePage = homePage;
         this.registrationPage = registrationPage;
         this.registrationSuccessPage = registrationSuccessPage;
-        this.profilePage = profilePage;
     }
 
     @Given("^I am a new user$")

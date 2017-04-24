@@ -30,6 +30,7 @@ public class HooksTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void Can_sign_out_after_every_scenario() {
 
         final Scenario scenario = mock(Scenario.class);

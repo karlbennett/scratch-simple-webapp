@@ -16,6 +16,7 @@
 
 package scratch.simple.webapp;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -23,6 +24,9 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.DispatcherServlet;
+import scratch.simple.webapp.jwt.Base64Key;
+
+import java.security.KeyPair;
 
 /**
  * This is the main class that Spring boot uses to start the stand alone application.
@@ -42,6 +46,11 @@ public class ServletApplication extends SpringBootServletInitializer {
         return registration;
     }
 
+    @Bean
+    public KeyPair keyPair(@Value("${jwt.secret}") String secret) {
+        final Base64Key key = new Base64Key(secret);
+        return new KeyPair(key, key);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(ServletApplication.class, args);

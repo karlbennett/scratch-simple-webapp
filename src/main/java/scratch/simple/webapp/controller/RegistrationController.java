@@ -2,11 +2,8 @@ package scratch.simple.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 import scratch.simple.webapp.data.UserRepository;
 import scratch.simple.webapp.domain.User;
 
@@ -32,14 +29,13 @@ public class RegistrationController {
     }
 
     @RequestMapping(method = POST, consumes = APPLICATION_FORM_URLENCODED_VALUE)
-    public String register(User user, Model model) {
+    public String register(User user) {
         userRepository.save(user);
-        model.addAttribute("username", user.getUsername());
         return "redirect:/registration/success";
     }
 
     @RequestMapping(method = GET, path = "/success")
-    public ModelAndView registrationSuccess(@ModelAttribute("username") String username) {
-        return new ModelAndView("registration-success", "username", username);
+    public String registrationSuccess() {
+        return "registration-success";
     }
 }
